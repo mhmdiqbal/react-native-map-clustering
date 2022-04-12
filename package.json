@@ -27,8 +27,8 @@
   },
   "homepage": "https://github.com/venits/react-native-map-clustering#readme",
   "dependencies": {
-    "supercluster": "^7.1.0",
-    "@mapbox/geo-viewport": "^0.4.1"
+    "supercluster": "^7.1.5",
+    "@mapbox/geo-viewport": "^0.5.0"
   },
   "peerDependencies": {
     "react-native-maps": "*",
