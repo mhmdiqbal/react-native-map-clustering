@@ -1,5 +1,11 @@
 ﻿# React Native Map Clustering
 
+> **Note:** The maintained version of this fork is on npm as
+> [`@mhmdiqbal/react-native-map-clustering`](https://www.npmjs.com/package/@mhmdiqbal/react-native-map-clustering).
+> Its code is on the [`release`](https://github.com/mhmdiqbal/react-native-map-clustering/tree/release) branch.
+> This `master` branch is kept as it is for apps that install it by git URL.
+> To stay on this code, pin the tag `#v3.4.2-legacy`.
+
 React Native module that handles map clustering for you.
 
 Works with **Expo** and **react-native-cli** 🚀
