@@ -29,7 +29,8 @@
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:build": "bob build && tsc -p smoke && jest --coverage=false --testMatch '<rootDir>/smoke/**/*.smoke.tsx'",
-    "prepublishOnly": "npm run lint && npm run typecheck && npm test && npm run test:build"
+    "prepublishOnly": "npm run lint && npm run typecheck && npm test && npm run test:build",
+    "example:setup": "bob build && npm pack --ignore-scripts --pack-destination example && npm --prefix example install ./example/mhmdiqbal-react-native-map-clustering-5.0.0.tgz"
   },
   "repository": {
     "type": "git",

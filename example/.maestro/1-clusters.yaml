@@ -1,0 +1,11 @@
+appId: host.exp.Exponent
+---
+- runFlow: subflows/open-app.yaml
+- assertVisible: "3"
+- assertVisible: "2"
+- assertVisible: "4"
+- assertVisible: gdansk
+- assertVisible: krakow
+- assertVisible: solo
+- assertNotVisible: poznan-1
+- takeScreenshot: 1-clusters
