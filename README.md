@@ -63,6 +63,8 @@ export default App;
 
 To keep a marker out of clustering, give it the prop `cluster={false}`.
 
+Without `initialRegion` or `region`, the markers show after the map sends its first `onRegionChangeComplete`.
+
 All other props go to the `MapView` of `react-native-maps`.
 
 ## Props

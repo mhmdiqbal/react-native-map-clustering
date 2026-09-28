@@ -242,10 +242,17 @@ describe("ClusteredMapView", () => {
       expect(clusters(root)).toHaveLength(1);
     });
 
-    test.failing("renders without region or initialRegion (#1)", async () => {
+    it("waits for the first region when there is no region or initialRegion", async () => {
       const root = await render(<MapView>{groupMarkers}</MapView>);
 
       expect(map(root)).toBeDefined();
+      expect(clusters(root)).toHaveLength(0);
+      expect(userMarkerIds(root)).toEqual([]);
+
+      await changeRegion(root, INITIAL_REGION);
+
+      expect(clusters(root)).toHaveLength(1);
+      expect(userMarkerIds(root)).toEqual(["b"]);
     });
   });
 

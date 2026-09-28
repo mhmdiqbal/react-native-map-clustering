@@ -14,6 +14,7 @@
 - Rebuild the clusters when `radius`, `maxZoom`, `minZoom`, `minPoints`, `extent` or `nodeSize` changes.
 - Fix the spiral when more than one stacked cluster is in view. Before, the later clusters lost their markers.
 - Support a function `ref`, like `ref={(map) => ...}`.
+- Do not crash without `region` or `initialRegion`. The clusters show after the first `onRegionChangeComplete`.
 
 ## 4.0.1
 
