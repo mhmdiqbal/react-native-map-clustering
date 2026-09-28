@@ -1,5 +1,9 @@
 ﻿# React Native Map Clustering
 
+> This is a fork of [react-native-map-clustering](https://github.com/tomekvenits/react-native-map-clustering) by Venits.
+> It is published on npm as `@mhmdiqbal/react-native-map-clustering`.
+> Thanks to the original author and all contributors.
+
 React Native module that handles map clustering for you.
 
 Works with **Expo** and **react-native-cli** 🚀
@@ -18,15 +22,15 @@ This repo is proudly sponsored by:
 ## Installation
 
 ```js
-npm install react-native-map-clustering react-native-maps --save
-// yarn add react-native-map-clustering react-native-maps
+npm install @mhmdiqbal/react-native-map-clustering react-native-maps --save
+// yarn add @mhmdiqbal/react-native-map-clustering react-native-maps
 ```
 
 ### Full example
 
 ```js
 import React from "react";
-import MapView from "react-native-map-clustering";
+import MapView from "@mhmdiqbal/react-native-map-clustering";
 import { Marker } from "react-native-maps";
 
 const INITIAL_REGION = {
@@ -88,7 +92,7 @@ Full example of how to use `animateToRegion()`.
 ```js
 import React, { useRef } from "react";
 import { Button } from "react-native";
-import MapView from "react-native-map-clustering";
+import MapView from "@mhmdiqbal/react-native-map-clustering";
 import { Marker } from "react-native-maps";
 
 const INITIAL_REGION = {

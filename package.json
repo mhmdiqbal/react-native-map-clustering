@@ -1,15 +1,22 @@
 {
-  "name": "react-native-map-clustering",
-  "version": "4.0.0",
-  "description": "React Native Map Clustering both for Android and iOS",
+  "name": "@mhmdiqbal/react-native-map-clustering",
+  "version": "4.0.1",
+  "description": "React Native Map Clustering both for Android and iOS. Fork of react-native-map-clustering by Venits.",
   "types": "index.d.ts",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "lib",
+    "!lib/__tests__"
+  ],
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "npm test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/venits/react-native-map-clustering.git"
+    "url": "git+https://github.com/mhmdiqbal/react-native-map-clustering.git"
   },
   "keywords": [
     "react-native",
@@ -20,12 +27,15 @@
     "map",
     "clustering"
   ],
-  "author": "Venits",
+  "author": "Muhamad Iqbal",
+  "contributors": [
+    "Venits (original author, https://github.com/tomekvenits/react-native-map-clustering)"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/venits/react-native-map-clustering/issues"
+    "url": "https://github.com/mhmdiqbal/react-native-map-clustering/issues"
   },
-  "homepage": "https://github.com/venits/react-native-map-clustering#readme",
+  "homepage": "https://github.com/mhmdiqbal/react-native-map-clustering#readme",
   "dependencies": {
     "@mapbox/geo-viewport": "^0.4.1",
     "supercluster": "^8.0.0"
@@ -58,5 +68,8 @@
         }
       ]
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
