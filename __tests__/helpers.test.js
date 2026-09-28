@@ -118,18 +118,13 @@ describe("generateSpiral", () => {
   });
 
   it("returns one point per cluster child", () => {
-    const spiral = generateSpiral(
-      cluster(3),
-      [leaf(7), leaf(8), leaf(9)],
-      [],
-      0,
-    );
+    const spiral = generateSpiral(cluster(3), [leaf(7), leaf(8), leaf(9)]);
 
     expect(spiral.map((point) => point.index)).toEqual([7, 8, 9]);
   });
 
   it("puts the first point on the cluster center", () => {
-    const [first] = generateSpiral(cluster(2), [leaf(0), leaf(1)], [], 0);
+    const [first] = generateSpiral(cluster(2), [leaf(0), leaf(1)]);
 
     expect(first).toEqual({
       index: 0,
@@ -140,7 +135,7 @@ describe("generateSpiral", () => {
   });
 
   it("moves the next points out along the spiral", () => {
-    const [, second] = generateSpiral(cluster(2), [leaf(0), leaf(1)], [], 0);
+    const [, second] = generateSpiral(cluster(2), [leaf(0), leaf(1)]);
     const angle = 0.125;
 
     expect(second.latitude).toBeCloseTo(
@@ -153,17 +148,14 @@ describe("generateSpiral", () => {
     );
   });
 
-  it("skips children of the markers before index", () => {
-    const markers = [cluster(2), { properties: {} }, cluster(2)];
-    const children = [leaf(0), leaf(1), leaf(2), leaf(3)];
+  it("uses no more leaves than the cluster point count", () => {
+    const spiral = generateSpiral(cluster(2), [leaf(0), leaf(1), leaf(2)]);
 
-    const spiral = generateSpiral(cluster(2), children, markers, 2);
-
-    expect(spiral.map((point) => point.index)).toEqual([2, 3]);
+    expect(spiral.map((point) => point.index)).toEqual([0, 1]);
   });
 
-  it("leaves out points that have no cluster child", () => {
-    expect(generateSpiral(cluster(3), [leaf(0)], [], 0)).toHaveLength(1);
+  it("leaves out points that have no cluster leaf", () => {
+    expect(generateSpiral(cluster(3), [leaf(0)])).toHaveLength(1);
   });
 });
 

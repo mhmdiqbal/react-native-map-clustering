@@ -608,7 +608,7 @@ describe("ClusteredMapView", () => {
       expect(byType(root, "Polyline")).toHaveLength(0);
     });
 
-    test.failing("shows the markers of every stacked cluster in view (#1)", async () => {
+    it("shows the markers of every stacked cluster in view", async () => {
       const root = await openSpiral({}, [
         ...stackMarkers("s", 52.4, 18.7),
         ...stackMarkers("t", 52.4002, 18.7002),

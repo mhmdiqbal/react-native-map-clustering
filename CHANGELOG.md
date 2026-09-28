@@ -12,6 +12,7 @@
 - `mapRef={null}` and `superClusterRef={null}` no longer crash.
 - Add tests for the components. Coverage is 100%, and `npm test` fails if a file drops below 95%.
 - Rebuild the clusters when `radius`, `maxZoom`, `minZoom`, `minPoints`, `extent` or `nodeSize` changes.
+- Fix the spiral when more than one stacked cluster is in view. Before, the later clusters lost their markers.
 
 ## 4.0.1
 
