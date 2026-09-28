@@ -179,6 +179,33 @@ describe("ClusteredMapView", () => {
       });
     });
 
+    it("updates superClusterRef when the clusters rebuild", async () => {
+      const superClusterRef = createRef();
+      const root = await render(
+        <MapView initialRegion={INITIAL_REGION} superClusterRef={superClusterRef} radius={10}>
+          {groupMarkers}
+        </MapView>
+      );
+      const first = superClusterRef.current;
+
+      await rerender(
+        root,
+        <MapView initialRegion={INITIAL_REGION} superClusterRef={superClusterRef} radius={20}>
+          {groupMarkers}
+        </MapView>
+      );
+      expect(superClusterRef.current).not.toBe(first);
+      expect(superClusterRef.current.options.radius).toBe(20);
+
+      await rerender(
+        root,
+        <MapView initialRegion={INITIAL_REGION} superClusterRef={superClusterRef} clusteringEnabled={false}>
+          {groupMarkers}
+        </MapView>
+      );
+      expect(superClusterRef.current).toBeNull();
+    });
+
     it("uses 6% of the window width as the default radius", async () => {
       const superClusterRef = createRef();
       await render(
@@ -197,7 +224,7 @@ describe("ClusteredMapView", () => {
       });
     });
 
-    test.failing("rebuilds clusters when a cluster prop changes (#1)", async () => {
+    it("rebuilds clusters when a cluster prop changes", async () => {
       const root = await render(
         <MapView initialRegion={INITIAL_REGION} radius={0.1}>
           {groupMarkers}

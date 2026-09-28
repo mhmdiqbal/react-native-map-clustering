@@ -11,6 +11,7 @@
 - Add `oxlint`. `npm run lint` checks the code, and it runs before publish.
 - `mapRef={null}` and `superClusterRef={null}` no longer crash.
 - Add tests for the components. Coverage is 100%, and `npm test` fails if a file drops below 95%.
+- Rebuild the clusters when `radius`, `maxZoom`, `minZoom`, `minPoints`, `extent` or `nodeSize` changes.
 
 ## 4.0.1
 
