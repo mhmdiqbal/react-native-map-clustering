@@ -15,6 +15,7 @@
 - Fix the spiral when more than one stacked cluster is in view. Before, the later clusters lost their markers.
 - Support a function `ref`, like `ref={(map) => ...}`.
 - Do not crash without `region` or `initialRegion`. The clusters show after the first `onRegionChangeComplete`.
+- `renderCluster` now runs inside a small component. It gets the same data as before.
 
 ## 4.0.1
 
