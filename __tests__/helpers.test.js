@@ -6,7 +6,7 @@ import {
   generateSpiral,
   returnMarkerStyle,
   getCenterOffsetForAnchor,
-} from "../helpers";
+} from "../lib/helpers";
 
 jest.mock(
   "react-native",

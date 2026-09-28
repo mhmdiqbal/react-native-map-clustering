@@ -8,7 +8,6 @@
     "index.js",
     "index.d.ts",
     "lib",
-    "!lib/__tests__",
     "CHANGELOG.md"
   ],
   "scripts": {
