@@ -11,8 +11,9 @@
     "CHANGELOG.md"
   ],
   "scripts": {
+    "lint": "oxlint",
     "test": "jest",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm run lint && npm test"
   },
   "repository": {
     "type": "git",
@@ -47,7 +48,8 @@
     "@babel/core": "^8.0.6",
     "@babel/preset-env": "^8.0.6",
     "babel-jest": "^30.5.2",
-    "jest": "^30.5.2"
+    "jest": "^30.5.2",
+    "oxlint": "^1.85.0"
   },
   "jest": {
     "transform": {

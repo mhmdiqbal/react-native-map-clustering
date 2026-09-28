@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "typescript", "unicorn", "oxc", "react", "jest"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "rules": {
+    "react-hooks/exhaustive-deps": "warn",
+    "react/refs": "warn",
+    "react/set-state-in-effect": "warn"
+  },
+  "ignorePatterns": ["example/**", "coverage/**"]
+}
