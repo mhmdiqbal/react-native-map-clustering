@@ -1,6 +1,13 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["eslint", "typescript", "unicorn", "oxc", "react", "jest"],
+  "plugins": [
+    "eslint",
+    "typescript",
+    "unicorn",
+    "oxc",
+    "react",
+    "jest"
+  ],
   "categories": {
     "correctness": "error",
     "suspicious": "warn",
@@ -11,5 +18,19 @@
     "react/refs": "warn",
     "react/set-state-in-effect": "warn"
   },
-  "ignorePatterns": ["example/**", "coverage/**"]
+  "ignorePatterns": [
+    "example/**",
+    "coverage/**"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "__tests__/**",
+        "__mocks__/**"
+      ],
+      "rules": {
+        "react/react-in-jsx-scope": "off"
+      }
+    }
+  ]
 }

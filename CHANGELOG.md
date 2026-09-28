@@ -10,6 +10,7 @@
 - Move the tests out of `lib`.
 - Add `oxlint`. `npm run lint` checks the code, and it runs before publish.
 - `mapRef={null}` and `superClusterRef={null}` no longer crash.
+- Add tests for the components. Coverage is 100%, and `npm test` fails if a file drops below 95%.
 
 ## 4.0.1
 

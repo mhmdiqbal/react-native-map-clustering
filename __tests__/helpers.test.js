@@ -8,14 +8,6 @@ import {
   getCenterOffsetForAnchor,
 } from "../lib/helpers";
 
-jest.mock(
-  "react-native",
-  () => ({
-    Dimensions: { get: () => ({ width: 375, height: 812 }) },
-  }),
-  { virtual: true },
-);
-
 const coordinate = { latitude: 37.75, longitude: -122.4 };
 const leaf = (index) => ({ properties: { index } });
 
