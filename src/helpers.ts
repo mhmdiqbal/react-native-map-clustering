@@ -1,4 +1,13 @@
 import { Dimensions } from "react-native";
+import type { Region } from "react-native-maps";
+import type {
+  BBox,
+  MapFeature,
+  MarkerLike,
+  MarkerProps,
+  PointFeature,
+  SpiderMarker,
+} from "./types";
 
 const { width, height } = Dimensions.get("window");
 
@@ -6,7 +15,7 @@ const { width, height } = Dimensions.get("window");
 const MAX_VIEWPORT_ZOOM = 20;
 const WORLD_SIZE = 256 * Math.pow(2, MAX_VIEWPORT_ZOOM);
 
-const toWorldPixel = ([lng, lat]) => {
+const toWorldPixel = ([lng, lat]: [number, number]): [number, number] => {
   const sinLat = Math.min(Math.max(Math.sin((Math.PI / 180) * lat), -0.9999), 0.9999);
   const x = Math.round(WORLD_SIZE / 2 + lng * (WORLD_SIZE / 360));
   const y = Math.round(
@@ -16,7 +25,7 @@ const toWorldPixel = ([lng, lat]) => {
   return [Math.min(x, WORLD_SIZE), Math.min(y, WORLD_SIZE)];
 };
 
-const viewportZoom = (bBox, [viewWidth, viewHeight]) => {
+const viewportZoom = (bBox: BBox, [viewWidth, viewHeight]: [number, number]) => {
   const [westX, southY] = toWorldPixel([bBox[0], bBox[1]]);
   const [eastX, northY] = toWorldPixel([bBox[2], bBox[3]]);
   const zoom = Math.floor(
@@ -28,14 +37,21 @@ const viewportZoom = (bBox, [viewWidth, viewHeight]) => {
   return Math.max(0, Math.min(MAX_VIEWPORT_ZOOM, zoom));
 };
 
-export const isMarker = (child) =>
-  child &&
-  child.props &&
-  child.props.coordinate &&
-  child.props.cluster !== false;
+const hasProps = (child: unknown): child is { props: Record<string, unknown> } =>
+  typeof child === "object" &&
+  child !== null &&
+  "props" in child &&
+  typeof child.props === "object" &&
+  child.props !== null;
 
-export const calculateBBox = (region) => {
-  let lngD;
+export const isMarker = (child: unknown): child is MarkerLike =>
+  hasProps(child) && Boolean(child.props.coordinate) && child.props.cluster !== false;
+
+export const isPointFeature = (feature: MapFeature): feature is PointFeature =>
+  feature.properties.point_count === 0;
+
+export const calculateBBox = (region: Region): BBox => {
+  let lngD: number;
   if (region.longitudeDelta < 0) lngD = region.longitudeDelta + 360;
   else lngD = region.longitudeDelta;
 
@@ -47,10 +63,14 @@ export const calculateBBox = (region) => {
   ];
 };
 
-export const returnMapZoom = (region, bBox, minZoom) =>
+export const returnMapZoom = (
+  region: Pick<Region, "longitudeDelta">,
+  bBox: BBox,
+  minZoom: number
+): number =>
   region.longitudeDelta >= 40 ? minZoom : viewportZoom(bBox, [width, height]);
 
-export const markerToGeoJSONFeature = (marker, index) => {
+export const markerToGeoJSONFeature = (marker: MarkerLike, index: number): PointFeature => {
   return {
     type: "Feature",
     geometry: {
@@ -68,7 +88,16 @@ export const markerToGeoJSONFeature = (marker, index) => {
   };
 };
 
-export const generateSpiral = (marker, clusterLeaves) => {
+type SpiralCenter = {
+  properties: { point_count: number };
+  geometry: { coordinates: number[] };
+};
+type SpiralLeaf = { properties: { index: number } };
+
+export const generateSpiral = (
+  marker: SpiralCenter,
+  clusterLeaves: SpiralLeaf[]
+): SpiderMarker[] => {
   const { properties, geometry } = marker;
   const [centerLongitude, centerLatitude] = geometry.coordinates;
 
@@ -86,7 +115,9 @@ export const generateSpiral = (marker, clusterLeaves) => {
   });
 };
 
-export const returnMarkerStyle = (points) => {
+type MarkerStyle = { width: number; height: number; size: number; fontSize: number };
+
+export const returnMarkerStyle = (points: number): MarkerStyle => {
   if (points >= 50) {
     return {
       width: 84,
@@ -149,17 +180,16 @@ export const returnMarkerStyle = (points) => {
   };
 };
 
-const removeChildrenFromProps = (props) => {
-  const newProps = {};
-  Object.keys(props).forEach((key) => {
-    if (key !== "children") {
-      newProps[key] = props[key];
-    }
-  });
-  return newProps;
-};
+const removeChildrenFromProps = ({ children: _children, ...props }: MarkerProps): Omit<MarkerProps, "children"> =>
+  props;
 
-export const getCenterOffsetForAnchor = (anchor, markerWidth, markerHeight) => ({
+type Point = { x: number; y: number };
+
+export const getCenterOffsetForAnchor = (
+  anchor: Point,
+  markerWidth: number,
+  markerHeight: number
+): Point => ({
   x: markerWidth * 0.5 - markerWidth * anchor.x,
   y: markerHeight * 0.5 - markerHeight * anchor.y,
 });

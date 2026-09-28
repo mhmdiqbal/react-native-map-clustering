@@ -1,0 +1,15 @@
+appId: host.exp.Exponent
+---
+- runFlow: subflows/open-app.yaml
+- tapOn: "3"
+- extendedWaitUntil:
+    visible:
+      id: status
+      text: ".*pressed 3/3"
+    timeout: 10000
+- extendedWaitUntil:
+    visible: poznan-1
+    timeout: 10000
+- assertVisible: poznan-2
+- assertVisible: poznan-3
+- takeScreenshot: 2-cluster-press

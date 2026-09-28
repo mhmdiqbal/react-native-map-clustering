@@ -1,0 +1,44 @@
+appId: host.exp.Exponent
+---
+- runFlow: subflows/open-app.yaml
+- tapOn:
+    id: toggle-clustering
+- assertVisible: Clustering off
+- extendedWaitUntil:
+    visible: poznan-1
+    timeout: 10000
+- assertVisible: lodz-1
+- assertVisible: stack-1
+- assertNotVisible: "3"
+- takeScreenshot: 4a-clustering-off
+- tapOn:
+    id: toggle-clustering
+- assertVisible: Clustering on
+- extendedWaitUntil:
+    visible: "3"
+    timeout: 10000
+- tapOn:
+    id: toggle-radius
+- assertVisible: Radius 120
+- extendedWaitUntil:
+    visible: "6"
+    timeout: 10000
+- assertNotVisible: "2"
+- assertVisible: solo
+- assertVisible: krakow
+- takeScreenshot: 4b-radius-120
+- tapOn:
+    id: toggle-radius
+- tapOn:
+    id: toggle-custom
+- assertVisible: Custom on
+- extendedWaitUntil:
+    visible: "#3"
+    timeout: 10000
+- takeScreenshot: 4c-custom-cluster
+- tapOn: "#3"
+- extendedWaitUntil:
+    visible:
+      id: status
+      text: ".*pressed 3/3"
+    timeout: 10000

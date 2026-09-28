@@ -1,7 +1,17 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { Marker } from "react-native-maps";
 import { returnMarkerStyle, getCenterOffsetForAnchor } from "./helpers";
+
+type ClusteredMarkerProps = {
+  geometry: { coordinates: number[] };
+  properties: { point_count: number };
+  onPress: () => void;
+  clusterColor: string;
+  clusterTextColor: string;
+  clusterFontFamily?: string;
+  tracksViewChanges: boolean;
+};
 
 const ClusteredMarker = ({
   geometry,
@@ -11,7 +21,7 @@ const ClusteredMarker = ({
   clusterTextColor,
   clusterFontFamily,
   tracksViewChanges,
-}) => {
+}: ClusteredMarkerProps) => {
   const points = properties.point_count;
   const { width, height, fontSize, size } = returnMarkerStyle(points);
 

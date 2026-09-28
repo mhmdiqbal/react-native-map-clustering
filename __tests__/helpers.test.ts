@@ -6,10 +6,11 @@ import {
   generateSpiral,
   returnMarkerStyle,
   getCenterOffsetForAnchor,
-} from "../lib/helpers";
+} from "../src/helpers";
+import type { BBox } from "../src/types";
 
 const coordinate = { latitude: 37.75, longitude: -122.4 };
-const leaf = (index) => ({ properties: { index } });
+const leaf = (index: number) => ({ properties: { index } });
 
 describe("isMarker", () => {
   it("returns true for a child with a coordinate", () => {
@@ -63,7 +64,7 @@ describe("calculateBBox", () => {
 });
 
 describe("returnMapZoom", () => {
-  const bBox = [-122.5, 37.7, -122.3, 37.8];
+  const bBox: BBox = [-122.5, 37.7, -122.3, 37.8];
 
   it("returns minZoom when longitudeDelta is 40 or more", () => {
     expect(returnMapZoom({ longitudeDelta: 40 }, bBox, 3)).toBe(3);
@@ -112,7 +113,7 @@ describe("markerToGeoJSONFeature", () => {
 
 describe("generateSpiral", () => {
   const center = [-122.4, 37.75];
-  const cluster = (pointCount) => ({
+  const cluster = (pointCount: number) => ({
     properties: { point_count: pointCount },
     geometry: { coordinates: center },
   });

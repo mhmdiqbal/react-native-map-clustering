@@ -1,0 +1,16 @@
+appId: host.exp.Exponent
+---
+- runFlow: subflows/open-app.yaml
+- tapOn: "4"
+- extendedWaitUntil:
+    visible:
+      id: status
+      text: ".*pressed 4/4"
+    timeout: 10000
+- extendedWaitUntil:
+    visible: stack-1
+    timeout: 15000
+- assertVisible: stack-2
+- assertVisible: stack-3
+- assertVisible: stack-4
+- takeScreenshot: 3-spiral

@@ -1,5 +1,19 @@
 # Changelog
 
+## 5.0.0
+
+- Rewrite the package in TypeScript. The types now come from the code, and the hand-written `index.d.ts` is gone.
+- Ship both an ES module build and a CommonJS build, with types for each. `require` works, so Jest in apps no longer has to transform this package.
+- Add a typed `Marker` export with the `cluster` prop.
+- Export the types `ClusteredMapViewProps`, `Cluster`, `MapFeature`, `PointFeature`, `MarkerProps` and `RenderClusterProps`. `MapView` is also the type of the map instance.
+- Breaking: deep imports like `.../lib/helpers` no longer work. Import from the package root.
+- Breaking for TypeScript: `selectedClusterId` is a `number`, and `region` is a `Region`.
+- `selectedClusterId` without `selectedClusterColor` now keeps `clusterColor`. Before, the cluster had no color.
+- `selectedClusterId` and `selectedClusterColor` are no longer passed to the native `MapView`.
+- A marker with `cluster={true}` no longer breaks the spiral.
+- Remove `duration: 750` from `fitToCoordinates`. `react-native-maps` never read it. The zoom still animates.
+- Add `react` to `peerDependencies`.
+
 ## 4.0.2
 
 - Fix TypeScript types. The module name is now `@mhmdiqbal/react-native-map-clustering`, so the types load for the new package name.
@@ -21,7 +35,7 @@
 
 - First release as `@mhmdiqbal/react-native-map-clustering`.
 - Center the cluster marker on its point (`anchor` and `centerOffset`).
-- Animate the zoom when you press a cluster (750 ms).
+- Pass `duration: 750` to `fitToCoordinates` when you press a cluster. `react-native-maps` ignores it (see 5.0.0).
 - Use one shared empty array for empty state, to avoid extra renders.
 - Add unit tests for the helpers.
 - Publish only the files the package needs.

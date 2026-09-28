@@ -9,7 +9,7 @@ It uses [supercluster](https://github.com/mapbox/supercluster) to build the clus
 
 - Works on Android and iOS.
 - Works with Expo and with the React Native CLI.
-- Includes TypeScript types.
+- Written in TypeScript. Types are included.
 
 ![Demo](https://raw.githubusercontent.com/venits/react-native-map-clustering/assets/assets/demo.gif)
 
@@ -62,6 +62,13 @@ export default App;
 ```
 
 To keep a marker out of clustering, give it the prop `cluster={false}`.
+In TypeScript, use the `Marker` from this package for that. It is the same as the `Marker` from `react-native-maps`, but it knows the `cluster` prop:
+
+```tsx
+import MapView, { Marker } from "@mhmdiqbal/react-native-map-clustering";
+
+<Marker coordinate={{ latitude: 52.4, longitude: 18.7 }} cluster={false} />;
+```
 
 Without `initialRegion` or `region`, the markers show after the map sends its first `onRegionChangeComplete`.
 
@@ -90,7 +97,7 @@ These props go to [supercluster](https://github.com/mapbox/supercluster#options)
 | **clusterColor**         | String   | `#00B386`   | Background color of a cluster.                                                |
 | **clusterTextColor**     | String   | `#FFFFFF`   | Color of the number in a cluster.                                             |
 | **clusterFontFamily**    | String   | `undefined` | Font family of the number in a cluster.                                       |
-| **selectedClusterId**    | String   | `undefined` | ID of the selected cluster. This cluster uses `selectedClusterColor`.         |
+| **selectedClusterId**    | Number   | `undefined` | ID of the selected cluster. This cluster uses `selectedClusterColor`.         |
 | **selectedClusterColor** | String   | `undefined` | Background color of the selected cluster.                                     |
 | **spiderLineColor**      | String   | `#FF0000`   | Color of the lines from the center to each marker in the spiral view.         |
 | **renderCluster**        | Function | `undefined` | Renders your own cluster component. See [Custom cluster](#custom-cluster).    |
@@ -198,6 +205,32 @@ const renderCluster = (cluster) => {
 ```
 
 The cluster data also has `clusterColor`, `clusterTextColor` and `clusterFontFamily`.
+
+## TypeScript
+
+`MapView` is also the type of the map instance. Use it with `useRef`:
+
+```tsx
+import { useRef } from "react";
+import MapView, { type ClusteredMapViewProps } from "@mhmdiqbal/react-native-map-clustering";
+
+const mapRef = useRef<MapView>(null);
+
+const onClusterPress: ClusteredMapViewProps["onClusterPress"] = (cluster, markers) => {
+  console.log(cluster.properties.point_count, markers.length);
+};
+```
+
+The package also exports the types `Cluster`, `MapFeature`, `PointFeature`, `MarkerProps` and `RenderClusterProps`.
+
+## Moving from 4.x
+
+- Import only from the package root. Deep imports like `@mhmdiqbal/react-native-map-clustering/lib/helpers` no longer work.
+- The types come from the code now. Some changed:
+  - `selectedClusterId` is a `number`. Cluster IDs from `supercluster` are numbers, so a string never matched.
+  - `region` is a `Region`. An `AnimatedRegion` never worked with clustering.
+  - `onClusterPress`, `onMarkersChange` and `superClusterRef` have real types, not `Marker` or `any`.
+- For `cluster={false}` in TypeScript, use the `Marker` from this package.
 
 ## Moving from react-native-map-clustering
 

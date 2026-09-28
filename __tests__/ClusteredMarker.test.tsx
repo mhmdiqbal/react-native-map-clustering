@@ -1,8 +1,8 @@
-import { act } from "react";
-import { createRoot } from "test-renderer";
-import ClusteredMarker from "../lib/ClusteredMarker";
+import { act, type ComponentProps } from "react";
+import { createRoot, type TestInstance } from "test-renderer";
+import ClusteredMarker from "../src/ClusteredMarker";
 
-const renderMarker = async (props) => {
+const renderMarker = async (props: Partial<ComponentProps<typeof ClusteredMarker>> = {}) => {
   const root = createRoot();
   await act(async () => {
     root.render(
@@ -21,7 +21,7 @@ const renderMarker = async (props) => {
   return root.container;
 };
 
-const byType = (container, type) =>
+const byType = (container: TestInstance, type: string) =>
   container.queryAll((node) => node.type === type);
 
 describe("ClusteredMarker", () => {

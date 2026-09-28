@@ -1,0 +1,9 @@
+appId: host.exp.Exponent
+---
+- stopApp
+- openLink: exp://127.0.0.1:8081
+- extendedWaitUntil:
+    visible:
+      id: status
+      text: "markers 5 \\| pressed none"
+    timeout: 30000
