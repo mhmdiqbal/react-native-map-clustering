@@ -13,6 +13,7 @@
 - Add tests for the components. Coverage is 100%, and `npm test` fails if a file drops below 95%.
 - Rebuild the clusters when `radius`, `maxZoom`, `minZoom`, `minPoints`, `extent` or `nodeSize` changes.
 - Fix the spiral when more than one stacked cluster is in view. Before, the later clusters lost their markers.
+- Support a function `ref`, like `ref={(map) => ...}`.
 
 ## 4.0.1
 

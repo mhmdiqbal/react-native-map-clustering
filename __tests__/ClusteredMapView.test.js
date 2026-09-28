@@ -643,7 +643,7 @@ describe("ClusteredMapView", () => {
       expect(clusters(root)).toHaveLength(1);
     });
 
-    test.failing("calls a function ref with the map instance (#1)", async () => {
+    it("calls a function ref with the map instance", async () => {
       const ref = jest.fn();
       await render(<MapView ref={ref} initialRegion={INITIAL_REGION} />);
 
