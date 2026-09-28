@@ -1,6 +1,6 @@
 {
   "name": "@mhmdiqbal/react-native-map-clustering",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "React Native Map Clustering both for Android and iOS. Fork of react-native-map-clustering by Venits.",
   "types": "index.d.ts",
   "main": "index.js",
@@ -37,7 +37,7 @@
   },
   "homepage": "https://github.com/mhmdiqbal/react-native-map-clustering#readme",
   "dependencies": {
-    "@mapbox/geo-viewport": "^0.4.1",
+    "@mapbox/geo-viewport": "^0.5.0",
     "supercluster": "^8.0.0"
   },
   "peerDependencies": {
