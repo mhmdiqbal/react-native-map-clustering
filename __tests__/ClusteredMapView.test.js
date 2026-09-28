@@ -215,7 +215,7 @@ describe("ClusteredMapView", () => {
       expect(clusters(root)).toHaveLength(1);
     });
 
-    test.failing("renders without region or initialRegion", async () => {
+    test.failing("renders without region or initialRegion (#1)", async () => {
       const root = await render(<MapView>{groupMarkers}</MapView>);
 
       expect(map(root)).toBeDefined();
