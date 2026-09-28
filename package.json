@@ -80,6 +80,9 @@
     "transformIgnorePatterns": [
       "/node_modules/(?!(supercluster|kdbush)/)"
     ],
+    "setupFiles": [
+      "<rootDir>/jest.setup.js"
+    ],
     "clearMocks": true,
     "collectCoverage": true,
     "collectCoverageFrom": [
