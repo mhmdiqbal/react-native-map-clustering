@@ -11,7 +11,7 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "lint": "oxlint",
+    "lint": "oxlint --deny-warnings",
     "test": "jest",
     "prepublishOnly": "npm run lint && npm test"
   },
