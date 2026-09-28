@@ -1,7 +1,7 @@
-declare module "react-native-map-clustering" {
+declare module "@mhmdiqbal/react-native-map-clustering" {
   import * as React from "react";
   import { LayoutAnimationConfig } from "react-native";
-  import Map, { MapViewProps, Marker } from "react-native-maps";
+  import Map, { Details, MapViewProps, Marker, Region } from "react-native-maps";
 
   export type Cluster = {};
 
@@ -28,13 +28,17 @@ declare module "react-native-map-clustering" {
     superClusterRef?: React.MutableRefObject<any>;
     mapRef?: (ref: React.Ref<Map>) => void;
     onClusterPress?: (cluster: Marker, markers?: Marker[]) => void;
-    getClusterEngine?: (ref: any) => void;
+    onRegionChangeComplete?: (
+      region: Region,
+      details?: Details,
+      markers?: Marker[]
+    ) => void;
     onMarkersChange?: (markers?: Marker[]) => void;
     renderCluster?: (cluster: any) => React.ReactNode;
   }
 
   export default class MapView extends React.Component<
-    MapViewProps & MapClusteringProps,
+    Omit<MapViewProps, "onRegionChangeComplete"> & MapClusteringProps,
     any
   > {}
 }
