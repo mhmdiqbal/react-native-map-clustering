@@ -5,8 +5,9 @@
 - Fix TypeScript types. The module name is now `@mhmdiqbal/react-native-map-clustering`, so the types load for the new package name.
 - Add `onRegionChangeComplete(region, details, markers)` to the types.
 - Remove `getClusterEngine` from the types. The code never used it.
-- Use `@mapbox/geo-viewport` `^0.5.0`.
+- Remove the `@mapbox/geo-viewport` dependency. A small local function now finds the map zoom. It gives the same zoom as before.
 - Rewrite the README. Add this changelog to the npm package.
+- Move the tests out of `lib`.
 
 ## 4.0.1
 

@@ -77,7 +77,7 @@ describe("returnMapZoom", () => {
     expect(returnMapZoom({ longitudeDelta: 120 }, bBox, 1)).toBe(1);
   });
 
-  it("returns the geo-viewport zoom for the window size", () => {
+  it("returns the viewport zoom for the window size", () => {
     expect(returnMapZoom({ longitudeDelta: 0.1 }, bBox, 1)).toBe(11);
   });
 
