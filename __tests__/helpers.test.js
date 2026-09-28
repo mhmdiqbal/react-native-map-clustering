@@ -17,6 +17,7 @@ jest.mock(
 );
 
 const coordinate = { latitude: 37.75, longitude: -122.4 };
+const leaf = (index) => ({ properties: { index } });
 
 describe("isMarker", () => {
   it("returns true for a child with a coordinate", () => {
@@ -123,7 +124,6 @@ describe("generateSpiral", () => {
     properties: { point_count: pointCount },
     geometry: { coordinates: center },
   });
-  const leaf = (index) => ({ properties: { index } });
 
   it("returns one point per cluster child", () => {
     const spiral = generateSpiral(

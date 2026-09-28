@@ -8,6 +8,8 @@
 - Remove the `@mapbox/geo-viewport` dependency. A small local function now finds the map zoom. It gives the same zoom as before.
 - Rewrite the README. Add this changelog to the npm package.
 - Move the tests out of `lib`.
+- Add `oxlint`. `npm run lint` checks the code, and it runs before publish.
+- `mapRef={null}` and `superClusterRef={null}` no longer crash.
 
 ## 4.0.1
 

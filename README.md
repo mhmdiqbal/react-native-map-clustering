@@ -111,8 +111,8 @@ These props go to [supercluster](https://github.com/mapbox/supercluster#options)
 | **onClusterPress(cluster, markers)**                 | Function         | `() => {}` | Called when you press a cluster. You get the cluster and its markers.                                     |
 | **onRegionChangeComplete(region, details, markers)** | Function         | `() => {}` | Called when the map region changes. You get the region, the details from `react-native-maps`, and the markers. |
 | **onMarkersChange(markers)**                         | Function         | `() => {}` | Called when the markers change. You get the markers.                                                      |
-| **mapRef(map)**                                      | Function         | `() => {}` | Called with the `react-native-maps` `MapView` instance. For a ref object, use `ref`. See below.           |
-| **superClusterRef**                                  | MutableRefObject | `{}`       | Gets the `supercluster` instance. See the [supercluster docs](https://github.com/mapbox/supercluster).    |
+| **mapRef(map)**                                      | Function         | `undefined` | Called with the `react-native-maps` `MapView` instance. For a ref object, use `ref`. See below.           |
+| **superClusterRef**                                  | MutableRefObject | `undefined` | Gets the `supercluster` instance. See the [supercluster docs](https://github.com/mapbox/supercluster).    |
 
 ## Access the map
 
