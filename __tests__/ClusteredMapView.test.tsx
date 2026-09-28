@@ -1,22 +1,30 @@
-import { act, createRef } from "react";
-import { createRoot } from "test-renderer";
-import { LayoutAnimation, Platform, View } from "react-native";
-import { Marker, mapInstance } from "react-native-maps";
-import MapView from "../lib/ClusteredMapView";
+import { act, createRef, type ComponentProps, type ReactElement, type RefObject } from "react";
+import { createRoot, type Root, type TestInstance } from "test-renderer";
+import { LayoutAnimation, Platform, TouchableOpacity, View } from "react-native";
+import { Marker, type Region } from "react-native-maps";
+import type Supercluster from "supercluster";
+import MapView from "../src/ClusteredMapView";
+import ClusterableMarker from "../src/Marker";
+import { mapInstance } from "../__mocks__/react-native-maps";
+import type { PointProperties, RenderClusterProps } from "../src/types";
 
-const INITIAL_REGION = {
+
+type SuperclusterOptions = { options: Supercluster.Options<PointProperties, object> };
+const optionsOf = (ref: RefObject<unknown>) => (ref.current as SuperclusterOptions).options;
+
+const INITIAL_REGION: Region = {
   latitude: 52.5,
   longitude: 19.2,
   latitudeDelta: 8.5,
   longitudeDelta: 8.5,
 };
-const CLOSE_REGION = {
+const CLOSE_REGION: Region = {
   latitude: 52.45,
   longitude: 18.75,
   latitudeDelta: 0.5,
   longitudeDelta: 0.5,
 };
-const STREET_REGION = {
+const STREET_REGION: Region = {
   latitude: 52.4,
   longitude: 18.7,
   latitudeDelta: 0.0005,
@@ -32,7 +40,7 @@ const groupMarkers = [
   <Marker key="b" testID="b" coordinate={{ latitude: 50, longitude: 25 }} />,
 ];
 
-const stackMarkers = (prefix, latitude, longitude) =>
+const stackMarkers = (prefix: string, latitude: number, longitude: number) =>
   [1, 2, 3].map((n) => (
     <Marker
       key={`${prefix}${n}`}
@@ -41,7 +49,7 @@ const stackMarkers = (prefix, latitude, longitude) =>
     />
   ));
 
-const render = async (element) => {
+const render = async (element: ReactElement) => {
   const root = createRoot();
   await act(async () => {
     root.render(element);
@@ -49,36 +57,40 @@ const render = async (element) => {
   return root;
 };
 
-const rerender = async (root, element) => {
+const rerender = async (root: Root, element: ReactElement) => {
   await act(async () => {
     root.render(element);
   });
 };
 
-const byType = (root, type) => root.container.queryAll((node) => node.type === type);
-const map = (root) => byType(root, "MapView")[0];
-const clusters = (root) => byType(root, "Marker").filter((node) => node.props.anchor);
-const userMarkerIds = (root) =>
+const byType = (root: Root, type: string) =>
+  root.container.queryAll((node) => node.type === type);
+const map = (root: Root) => byType(root, "MapView")[0];
+const clusters = (root: Root) => byType(root, "Marker").filter((node) => node.props.anchor);
+const userMarkerIds = (root: Root) =>
   byType(root, "Marker")
     .map((node) => node.props.testID)
     .filter(Boolean)
     .toSorted();
-const clusterCount = (cluster) =>
+const clusterCount = (cluster: TestInstance) =>
   cluster.queryAll((node) => node.type === "Text")[0].children[0];
 
-const changeRegion = async (root, region) => {
+const changeRegion = async (root: Root, region: Region) => {
   await act(async () => {
     map(root).props.onRegionChangeComplete(region, details);
   });
 };
 
-const press = async (cluster) => {
+const press = async (cluster: TestInstance) => {
   await act(async () => {
     cluster.props.onPress();
   });
 };
 
-const openSpiral = async (props = {}, markers = stackMarkers("s", 52.4, 18.7)) => {
+const openSpiral = async (
+  props: Partial<ComponentProps<typeof MapView>> = {},
+  markers: ReactElement[] = stackMarkers("s", 52.4, 18.7)
+) => {
   const root = await render(
     <MapView initialRegion={INITIAL_REGION} {...props}>
       {markers}
@@ -122,7 +134,7 @@ describe("ClusteredMapView", () => {
       const root = await render(
         <MapView initialRegion={INITIAL_REGION}>
           {groupMarkers}
-          <Marker testID="solo" cluster={false} coordinate={{ latitude: 52.41, longitude: 18.71 }} />
+          <ClusterableMarker testID="solo" cluster={false} coordinate={{ latitude: 52.41, longitude: 18.71 }} />
         </MapView>
       );
 
@@ -153,7 +165,7 @@ describe("ClusteredMapView", () => {
     });
 
     it("gives the supercluster options to superClusterRef", async () => {
-      const superClusterRef = createRef();
+      const superClusterRef = createRef<Supercluster<PointProperties>>();
       await render(
         <MapView
           initialRegion={INITIAL_REGION}
@@ -169,7 +181,7 @@ describe("ClusteredMapView", () => {
         </MapView>
       );
 
-      expect(superClusterRef.current.options).toMatchObject({
+      expect(optionsOf(superClusterRef)).toMatchObject({
         radius: 10,
         maxZoom: 15,
         minZoom: 2,
@@ -180,7 +192,7 @@ describe("ClusteredMapView", () => {
     });
 
     it("updates superClusterRef when the clusters rebuild", async () => {
-      const superClusterRef = createRef();
+      const superClusterRef = createRef<Supercluster<PointProperties>>();
       const root = await render(
         <MapView initialRegion={INITIAL_REGION} superClusterRef={superClusterRef} radius={10}>
           {groupMarkers}
@@ -195,7 +207,7 @@ describe("ClusteredMapView", () => {
         </MapView>
       );
       expect(superClusterRef.current).not.toBe(first);
-      expect(superClusterRef.current.options.radius).toBe(20);
+      expect(optionsOf(superClusterRef).radius).toBe(20);
 
       await rerender(
         root,
@@ -207,14 +219,14 @@ describe("ClusteredMapView", () => {
     });
 
     it("uses 6% of the window width as the default radius", async () => {
-      const superClusterRef = createRef();
+      const superClusterRef = createRef<Supercluster<PointProperties>>();
       await render(
         <MapView initialRegion={INITIAL_REGION} superClusterRef={superClusterRef}>
           {groupMarkers}
         </MapView>
       );
 
-      expect(superClusterRef.current.options).toMatchObject({
+      expect(optionsOf(superClusterRef)).toMatchObject({
         radius: 375 * 0.06,
         maxZoom: 20,
         minZoom: 1,
@@ -314,9 +326,41 @@ describe("ClusteredMapView", () => {
       expect(wrapper.props.style[1].backgroundColor).toBe("#ff00ff");
     });
 
+    it("keeps clusterColor when selectedClusterColor is missing", async () => {
+      const onClusterPress = jest.fn();
+      const root = await render(
+        <MapView initialRegion={INITIAL_REGION} onClusterPress={onClusterPress}>
+          {groupMarkers}
+        </MapView>
+      );
+      await press(clusters(root)[0]);
+      const [cluster] = onClusterPress.mock.calls[0];
+
+      await rerender(
+        root,
+        <MapView initialRegion={INITIAL_REGION} selectedClusterId={cluster.id}>
+          {groupMarkers}
+        </MapView>
+      );
+
+      const wrapper = clusters(root)[0].queryAll((node) => node.type === "View")[0];
+      expect(wrapper.props.style[1].backgroundColor).toBe("#00B386");
+    });
+
+    it("does not pass the selected cluster props to the native map", async () => {
+      const root = await render(
+        <MapView initialRegion={INITIAL_REGION} selectedClusterId={1} selectedClusterColor="#ff00ff">
+          {groupMarkers}
+        </MapView>
+      );
+
+      expect(map(root).props).not.toHaveProperty("selectedClusterId");
+      expect(map(root).props).not.toHaveProperty("selectedClusterColor");
+    });
+
     it("renders a custom cluster with renderCluster", async () => {
-      const renderCluster = jest.fn((cluster) => (
-        <View key={cluster.id} testID="custom-cluster" onPress={cluster.onPress} />
+      const renderCluster = jest.fn((cluster: RenderClusterProps) => (
+        <TouchableOpacity key={cluster.id} testID="custom-cluster" onPress={cluster.onPress} />
       ));
       const root = await render(
         <MapView
@@ -341,8 +385,10 @@ describe("ClusteredMapView", () => {
         })
       );
 
-      const custom = byType(root, "View").find((node) => node.props.testID === "custom-cluster");
-      await press(custom);
+      const custom = byType(root, "TouchableOpacity").find(
+        (node) => node.props.testID === "custom-cluster"
+      );
+      await press(custom as TestInstance);
 
       expect(mapInstance.fitToCoordinates).toHaveBeenCalledTimes(1);
     });
@@ -370,7 +416,6 @@ describe("ClusteredMapView", () => {
       );
       expect(mapInstance.fitToCoordinates.mock.calls[0][1]).toEqual({
         edgePadding: { top: 50, left: 50, right: 50, bottom: 50 },
-        duration: 750,
       });
 
       const [cluster, leaves] = onClusterPress.mock.calls[0];
@@ -388,7 +433,7 @@ describe("ClusteredMapView", () => {
 
       await press(clusters(root)[0]);
 
-      expect(mapInstance.fitToCoordinates.mock.calls[0][1]).toEqual({ edgePadding, duration: 750 });
+      expect(mapInstance.fitToCoordinates.mock.calls[0][1]).toEqual({ edgePadding });
     });
 
     it("does not zoom when preserveClusterPressBehavior is true", async () => {
@@ -582,6 +627,21 @@ describe("ClusteredMapView", () => {
       expect(byType(root, "Polyline")).toHaveLength(3);
     });
 
+    it("keeps a marker with cluster={true} in spiral mode", async () => {
+      const root = await openSpiral({}, [
+        ...stackMarkers("s", 52.4, 18.7),
+        <ClusterableMarker
+          key="near"
+          testID="near"
+          cluster
+          coordinate={{ latitude: 52.4001, longitude: 18.7001 }}
+        />,
+      ]);
+
+      expect(userMarkerIds(root)).toEqual(["near", "s1", "s2", "s3"]);
+      expect(byType(root, "Polyline")).toHaveLength(3);
+    });
+
     it("drops a spiral marker when its child is removed", async () => {
       const root = await openSpiral();
 
@@ -627,7 +687,7 @@ describe("ClusteredMapView", () => {
 
   describe("refs", () => {
     it("sets ref to the map instance", async () => {
-      const ref = createRef();
+      const ref = createRef<MapView>();
       await render(<MapView ref={ref} initialRegion={INITIAL_REGION} />);
 
       expect(ref.current).toBe(mapInstance);

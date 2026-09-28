@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "lib": [
+      "esnext"
+    ],
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "types": [
+      "jest"
+    ]
+  },
+  "include": [
+    "src",
+    "__tests__",
+    "__mocks__",
+    "smoke/build.smoke.tsx"
+  ]
+}

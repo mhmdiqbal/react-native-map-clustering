@@ -15,17 +15,10 @@
   },
   "ignorePatterns": [
     "example/**",
-    "coverage/**"
+    "coverage/**",
+    "lib/**"
   ],
-  "overrides": [
-    {
-      "files": [
-        "__tests__/**",
-        "__mocks__/**"
-      ],
-      "rules": {
-        "react/react-in-jsx-scope": "off"
-      }
-    }
-  ]
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  }
 }
